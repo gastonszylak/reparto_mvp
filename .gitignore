@@ -1,0 +1,19 @@
+# Secretos y configuración local
+.env
+.env.*
+!.env.example
+config.local.js
+supabase/.temp/
+
+# Node / Supabase CLI
+node_modules/
+.supabase/
+
+# Builds y logs
+dist/
+build/
+*.log
+
+# Sistema
+.DS_Store
+Thumbs.db

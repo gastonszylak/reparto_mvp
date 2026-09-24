@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#102a43" />
+    <meta name="description" content="AguaFlow, operación diaria de reparto de agua y soda" />
+    <title>AguaFlow · Repartidor</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <svg class="svg-sprite" aria-hidden="true">
+      <symbol id="i-grid" viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+      <symbol id="i-route" viewBox="0 0 24 24"><path d="M6 19a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM18 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM8.5 15.5l7-7M7 9h5a3 3 0 0 1 3 3v0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-box" viewBox="0 0 24 24"><path d="m4 7 8-4 8 4-8 4-8-4Zm0 0v10l8 4 8-4V7M12 11v10M8 5l8 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+      <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="19" cy="12" r="1.5" fill="currentColor"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c.7-3.4 3-5 7-5s6.3 1.6 7 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24"><path d="M7 4h3l1.3 4-2 1.4a14 14 0 0 0 5.3 5.3l1.4-2 4 1.3v3c0 1.1-.9 2-2 2C10.7 19 5 13.3 5 6c0-1.1.9-2 2-2Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+      <symbol id="i-message" viewBox="0 0 24 24"><path d="M5 5.5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8l-4.5 3v-3H5a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M7 9h10M7 13h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24"><path d="m4 16-.8 4.8L8 20l10.5-10.5a2.8 2.8 0 0 0-4-4L4 16Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m13.5 6.5 4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 3.5v4M16 3.5v4M4 10h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-location" viewBox="0 0 24 24"><path d="M19 10c0 5-7 10-7 10S5 15 5 10a7 7 0 1 1 14 0Z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="10" r="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m19 13.5 1.2 1-.9 1.6-1.5-.4a7.5 7.5 0 0 1-1.5 1.5l.4 1.5-1.6.9-1-1.2a7 7 0 0 1-2 .3l-.6 1.4h-1.8l-.6-1.4a7 7 0 0 1-2-.3l-1 1.2-1.6-.9.4-1.5A7.5 7.5 0 0 1 5 16.7l-1.5.4-.9-1.6 1.2-1a7 7 0 0 1 0-2.1l-1.2-1 .9-1.6 1.5.4a7.5 7.5 0 0 1 1.5-1.5l-.4-1.5 1.6-.9 1 1.2a7 7 0 0 1 2-.3l.6-1.4h1.8l.6 1.4a7 7 0 0 1 2 .3l1-1.2 1.6.9-.4 1.5a7.5 7.5 0 0 1 1.5 1.5l1.5-.4.9 1.6-1.2 1a7 7 0 0 1 0 2.1Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M19 8a7.5 7.5 0 0 0-13.2-1.8L4 8.5M4 5v3.5h3.5M5 16a7.5 7.5 0 0 0 13.2 1.8l1.8-2.3M20 19v-3.5h-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4 21 20H3L12 4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 9v5M12 17.5v.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 6h11v11H3zM14 10h4l3 3v4h-7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7" cy="19" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="18" cy="19" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+      <symbol id="i-tag" viewBox="0 0 24 24"><path d="M4 5v6l9 9 7-7-9-9H4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="8" cy="8" r="1.2" fill="currentColor"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3 20c.5-3.2 2.5-4.8 6-4.8s5.5 1.6 6 4.8M16 5.5a3 3 0 0 1 0 5.8M17 15.3c2.3.5 3.6 2 4 4.7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    </svg>
+
+    <section class="auth-screen" id="auth-screen" hidden>
+      <div class="auth-card">
+        <div class="brand auth-brand"><div class="brand-symbol">A</div><div><strong>Agua<span>Flow</span></strong><small>Operación de reparto</small></div></div>
+        <span class="eyebrow">ACCESO SEGURO</span>
+        <h1>Ingresá a tu operación</h1>
+        <p id="auth-subtitle">Usá el usuario asignado por el administrador.</p>
+        <form id="auth-form">
+          <label class="field-label" for="auth-email">Correo electrónico</label>
+          <input class="text-input" id="auth-email" type="email" autocomplete="email" placeholder="repartidor@negocio.com" required />
+          <label class="field-label" for="auth-password">Contraseña</label>
+          <input class="text-input" id="auth-password" type="password" autocomplete="current-password" placeholder="••••••••" required />
+          <button class="primary-button full-button" id="auth-submit" type="submit">Ingresar <svg><use href="#i-arrow"></use></svg></button>
+        </form>
+        <p class="auth-message" id="auth-message" aria-live="polite"></p>
+        <p class="auth-footnote">La app queda disponible sin conexión después de la primera carga.</p>
+      </div>
+    </section>
+
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Navegación principal">
+        <div class="brand">
+          <div class="brand-symbol">A</div>
+          <div>
+            <strong>Agua<span>Flow</span></strong>
+            <small>Operación de reparto</small>
+          </div>
+        </div>
+        <div class="sidebar-route">
+          <span class="sidebar-label">Jornada activa</span>
+          <strong>Ruta Norte</strong>
+          <span id="sidebar-date">Jueves 24 sep</span>
+        </div>
+        <nav class="side-nav">
+          <button class="side-nav-item active" data-view="home"><svg><use href="#i-grid"></use></svg><span>Hoy</span></button>
+          <button class="side-nav-item" data-view="route"><svg><use href="#i-route"></use></svg><span>Mi ruta</span><b id="side-route-count">8</b></button>
+          <button class="side-nav-item" data-view="stock"><svg><use href="#i-box"></use></svg><span>Stock</span></button>
+          <button class="side-nav-item" data-view="more"><svg><use href="#i-more"></use></svg><span>Más</span></button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="driver-mini">
+            <div class="avatar avatar-small">LS</div>
+            <div><strong>Luis Sánchez</strong><span>Repartidor</span></div>
+            <button class="icon-button subtle" aria-label="Configuración" data-view="more"><svg><use href="#i-settings"></use></svg></button>
+          </div>
+          <div class="sidebar-help"><svg><use href="#i-alert"></use></svg><span>¿Necesitás ayuda?<strong> Contactar despacho</strong></span></div>
+        </div>
+      </aside>
+
+      <main class="app-main">
+        <header class="topbar">
+          <div class="mobile-brand">
+            <div class="brand-symbol">A</div>
+            <span>AguaFlow</span>
+          </div>
+          <div class="greeting">
+            <span class="eyebrow">MI JORNADA</span>
+            <h1 id="page-title">Buenos días, Luis</h1>
+          </div>
+          <div class="topbar-actions">
+            <button class="connection-pill" id="connection-toggle" type="button"><span class="status-dot"></span><span id="connection-label">En línea</span></button>
+            <div class="sync-pill" id="sync-status"><span class="sync-dot"></span><span id="sync-label">Sincronizado</span></div>
+            <button class="icon-button notification-button" id="notification-button" type="button" aria-label="Notificaciones"><svg><use href="#i-bell"></use></svg><span class="notification-dot"></span></button>
+            <div class="avatar">LS</div>
+          </div>
+        </header>
+
+        <div class="offline-banner" id="offline-banner" hidden>
+          <svg><use href="#i-alert"></use></svg>
+          <span>Estás sin conexión. Los cambios se guardarán y se sincronizarán luego.</span>
+        </div>
+
+        <div class="view-container">
+          <section class="view active" id="view-home" aria-labelledby="home-heading">
+            <div class="hero-card">
+              <div class="product-decor" aria-hidden="true">
+                <div class="decor-product decor-jug decor-jug-large"><span class="decor-cap"></span><span class="decor-body"><i></i><b>20L</b></span></div>
+                <div class="decor-product decor-jug decor-jug-small"><span class="decor-cap"></span><span class="decor-body"><i></i><b>12L</b></span></div>
+                <div class="decor-product decor-soda"><span class="decor-cap"></span><span class="decor-body"><i></i><b>SODA</b></span></div>
+              </div>
+              <div class="hero-topline"><span class="hero-kicker"><svg><use href="#i-calendar"></use></svg><span id="hero-date">Jueves 24 de septiembre</span></span><span class="route-code">R-08</span></div>
+              <div class="hero-content">
+                <div>
+                  <p class="hero-label">Ruta Norte</p>
+                  <h2 id="home-heading">Tu día, en marcha.</h2>
+                  <p class="hero-subtitle">Tenés <strong id="hero-remaining">6 paradas</strong> por completar hoy.</p>
+                </div>
+                <div class="hero-progress-wrap">
+                  <div class="progress-ring" id="progress-ring"><span id="progress-value">25%</span></div>
+                  <span>de la jornada</span>
+                </div>
+              </div>
+              <div class="hero-progress"><div class="progress-track"><div class="progress-fill" id="hero-progress-fill"></div></div><div class="hero-progress-labels"><span><b id="hero-delivered">2</b> entregadas</span><span><b id="hero-total">8</b> paradas</span></div></div>
+              <button class="hero-action" data-action="next-stop" type="button"><span>Continuar con la próxima parada</span><svg><use href="#i-arrow"></use></svg></button>
+            </div>
+
+            <div class="section-heading metrics-heading"><div><span class="eyebrow">RESUMEN</span><h2>Estado de hoy</h2></div><button class="text-button" data-view="route">Ver ruta <svg><use href="#i-chevron"></use></svg></button></div>
+            <div class="metric-grid">
+              <button class="metric-card metric-confirmed" data-filter="confirmed" type="button"><span class="metric-icon"><svg><use href="#i-check"></use></svg></span><span class="metric-value" id="metric-confirmed">4</span><span class="metric-label">Confirmados</span></button>
+              <button class="metric-card metric-pending" data-filter="pending" type="button"><span class="metric-icon"><svg><use href="#i-clock"></use></svg></span><span class="metric-value" id="metric-pending">1</span><span class="metric-label">Pendientes</span></button>
+              <button class="metric-card metric-delivered" data-filter="delivered" type="button"><span class="metric-icon"><svg><use href="#i-truck"></use></svg></span><span class="metric-value" id="metric-delivered">2</span><span class="metric-label">Entregados</span></button>
+            </div>
+
+            <div class="section-heading stops-heading"><div><span class="eyebrow">PRÓXIMAS PARADAS</span><h2 id="stops-section-title">Lista de la mañana</h2></div><button class="text-button" data-view="route">Ver todas <svg><use href="#i-chevron"></use></svg></button></div>
+            <div class="stop-list" id="home-stop-list"></div>
+
+            <div class="home-bottom-grid">
+              <div class="mini-panel stock-mini-panel">
+                <div class="panel-heading"><div><span class="eyebrow">EN EL CAMIÓN</span><h3>Stock disponible</h3></div><button class="icon-button subtle" data-view="stock" aria-label="Ver stock"><svg><use href="#i-chevron"></use></svg></button></div>
+                <div class="stock-mini-list" id="home-stock-list"></div>
+              </div>
+              <div class="mini-panel tip-panel">
+                <div class="tip-icon"><svg><use href="#i-message"></use></svg></div>
+                <div><span class="eyebrow">MENSAJERÍA</span><h3>Respuestas en vivo</h3><p>Los cambios de WhatsApp aparecerán automáticamente en tu ruta.</p></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="view" id="view-route" aria-labelledby="route-heading">
+            <div class="page-intro"><div><span class="eyebrow">MI RUTA · R-08</span><h2 id="route-heading">Paradas de hoy</h2><p id="route-intro-date">Jueves 24 de septiembre</p></div><div class="route-total"><strong id="route-progress-label">2/8</strong><span>completadas</span></div></div>
+            <div class="route-toolbar"><div class="search-box"><svg><use href="#i-more"></use></svg><input id="route-search" type="search" placeholder="Buscar cliente o dirección" aria-label="Buscar cliente" /></div><button class="filter-button" id="route-filter-button" type="button"><svg><use href="#i-settings"></use></svg><span>Filtrar</span></button></div>
+            <div class="filter-chips" id="route-filters"><button class="filter-chip active" data-filter="all" type="button">Todas <span id="filter-all-count">8</span></button><button class="filter-chip" data-filter="pending" type="button">Pendientes <span id="filter-pending-count">1</span></button><button class="filter-chip" data-filter="confirmed" type="button">Confirmados <span id="filter-confirmed-count">4</span></button><button class="filter-chip" data-filter="delivered" type="button">Entregados <span id="filter-delivered-count">2</span></button><button class="filter-chip" data-filter="exception" type="button">Excepciones <span id="filter-exception-count">1</span></button></div>
+            <div class="route-list" id="route-list"></div>
+          </section>
+
+          <section class="view" id="view-stock" aria-labelledby="stock-heading">
+            <div class="page-intro"><div><span class="eyebrow">CAMIÓN · R-08</span><h2 id="stock-heading">Stock de la jornada</h2><p>Control rápido de carga y entregas.</p></div><button class="outline-button" id="stock-movement-button" type="button"><svg><use href="#i-plus"></use></svg> Registrar movimiento</button></div>
+            <div class="stock-overview" id="stock-overview"></div>
+            <div class="section-heading stock-heading"><div><span class="eyebrow">EXISTENCIAS</span><h2>Productos en el vehículo</h2></div><span class="updated-label" id="stock-updated">Actualizado ahora</span></div>
+            <div class="stock-grid" id="stock-grid"></div>
+            <div class="section-heading movement-heading"><div><span class="eyebrow">MOVIMIENTOS</span><h2>Actividad reciente</h2></div></div>
+            <div class="movement-list" id="movement-list"></div>
+          </section>
+
+          <section class="view" id="view-more" aria-labelledby="more-heading">
+            <div class="page-intro"><div><span class="eyebrow">CONFIGURACIÓN</span><h2 id="more-heading">Más opciones</h2><p>Gestioná la operación y tu cuenta.</p></div><div class="profile-card-mini"><div class="avatar">LS</div><div><strong>Luis Sánchez</strong><span>Repartidor · Ruta Norte</span></div></div></div>
+            <div class="admin-grid">
+              <button class="admin-card" data-view="clients" data-admin-only="true" type="button"><span class="admin-card-icon teal"><svg><use href="#i-users"></use></svg></span><span><strong>Clientes</strong><small>Importar y asignar días</small></span><svg class="card-chevron"><use href="#i-chevron"></use></svg></button>
+              <button class="admin-card" data-view="routes" data-admin-only="true" type="button"><span class="admin-card-icon blue"><svg><use href="#i-route"></use></svg></span><span><strong>Rutas semanales</strong><small>Generar la jornada del día</small></span><svg class="card-chevron"><use href="#i-chevron"></use></svg></button>
+              <button class="admin-card" data-view="messages" data-admin-only="true" type="button"><span class="admin-card-icon purple"><svg><use href="#i-message"></use></svg></span><span><strong>Cola de mensajes</strong><small>Consultas y respuestas</small></span><svg class="card-chevron"><use href="#i-chevron"></use></svg></button>
+              <button class="admin-card" data-action="show-prices" data-admin-only="true" type="button"><span class="admin-card-icon orange"><svg><use href="#i-tag"></use></svg></span><span><strong>Precios</strong><small>Actualizar lista de productos</small></span><svg class="card-chevron"><use href="#i-chevron"></use></svg></button>
+              <button class="admin-card" data-action="show-reports" data-admin-only="true" type="button"><span class="admin-card-icon purple"><svg><use href="#i-grid"></use></svg></span><span><strong>Reportes</strong><small>Resumen de la jornada</small></span><svg class="card-chevron"><use href="#i-chevron"></use></svg></button>
+            </div>
+            <div class="role-panel">
+              <div class="role-panel-copy"><span class="eyebrow">PERMISO DE SESIÓN</span><strong id="role-label">Administrador</strong><small id="role-description">Puede administrar clientes, rutas y precios.</small></div>
+              <button class="role-switch" id="role-switch" type="button"><span>Cambiar a repartidor</span><svg><use href="#i-refresh"></use></svg></button>
+            </div>
+            <div class="settings-panel">
+              <div class="panel-heading"><div><span class="eyebrow">PREFERENCIAS</span><h3>Ajustes de la app</h3></div></div>
+              <button class="setting-row" id="notification-setting" type="button"><span class="setting-leading"><svg><use href="#i-bell"></use></svg><span><strong>Notificaciones</strong><small>Respuestas y cambios de ruta</small></span></span><span class="toggle is-on"><i></i></span></button>
+              <button class="setting-row" id="offline-setting" type="button"><span class="setting-leading"><svg><use href="#i-refresh"></use></svg><span><strong>Modo sin conexión</strong><small>Simular trabajo sin señal</small></span></span><span class="toggle" id="offline-toggle"><i></i></span></button>
+              <button class="setting-row" id="reset-demo" type="button"><span class="setting-leading danger"><svg><use href="#i-refresh"></use></svg><span><strong>Restaurar datos de demostración</strong><small>Vuelve al estado inicial</small></span></span><svg class="row-chevron"><use href="#i-chevron"></use></svg></button>
+            </div>
+            <p class="demo-note"><span class="demo-badge">DEMO</span> Esta versión es un prototipo navegable. La integración con Supabase y WhatsApp se conectará en el siguiente paso.</p>
+          </section>
+
+          <section class="view" id="view-clients" aria-labelledby="clients-heading">
+            <div class="page-intro"><div><span class="eyebrow">ADMINISTRACIÓN · CARGA Y ASIGNACIÓN</span><h2 id="clients-heading">Clientes</h2><p>Importá clientes, pedidos habituales y días de atención.</p></div><div class="admin-header-actions"><button class="outline-button" id="import-clients-button" data-admin-only="true" type="button"><svg><use href="#i-box"></use></svg> Importar CSV</button><button class="primary-button compact-primary" id="new-client-button" data-admin-only="true" type="button"><svg><use href="#i-plus"></use></svg> Nuevo cliente</button></div></div>
+            <div class="admin-summary-grid" id="client-summary"></div>
+            <div class="client-toolbar"><div class="search-box"><svg><use href="#i-more"></use></svg><input id="client-search" type="search" placeholder="Buscar por nombre o teléfono" aria-label="Buscar clientes" /></div><div class="client-day-filter" id="client-day-filters"><button class="filter-chip active" data-client-day="all" type="button">Todos</button><button class="filter-chip" data-client-day="lunes" type="button">Lun</button><button class="filter-chip" data-client-day="martes" type="button">Mar</button><button class="filter-chip" data-client-day="miércoles" type="button">Mié</button><button class="filter-chip" data-client-day="jueves" type="button">Jue</button><button class="filter-chip" data-client-day="viernes" type="button">Vie</button><button class="filter-chip" data-client-day="sábado" type="button">Sáb</button></div></div>
+            <div class="client-list" id="client-list"></div>
+            <div class="import-hint"><div class="import-hint-icon"><svg><use href="#i-box"></use></svg></div><div><strong>¿Primera carga?</strong><p>Usá la plantilla CSV para cargar nombre, teléfono, dirección, día, repartidor, pedido habitual y consentimiento de WhatsApp.</p></div><button class="text-button" id="download-template-button" type="button">Descargar plantilla <svg><use href="#i-chevron"></use></svg></button></div>
+          </section>
+
+          <section class="view" id="view-routes" aria-labelledby="routes-heading">
+            <div class="page-intro"><div><span class="eyebrow">PLANIFICACIÓN · SEMANA</span><h2 id="routes-heading">Rutas semanales</h2><p>Asigná clientes por día y generá la jornada operativa.</p></div><button class="primary-button compact-primary" id="generate-route-button" data-admin-only="true" type="button"><svg><use href="#i-route"></use></svg> Generar ruta de hoy</button></div>
+            <div class="route-run-banner" id="route-run-banner"></div>
+            <div class="week-grid" id="week-grid"></div>
+            <div class="section-heading"><div><span class="eyebrow">JORNADA ACTUAL</span><h2>Paradas generadas</h2></div><span class="updated-label" id="route-generated-label">Sincronizado</span></div>
+            <div class="route-list compact-route-list" id="generated-route-list"></div>
+          </section>
+
+          <section class="view" id="view-messages" aria-labelledby="messages-heading">
+            <div class="page-intro"><div><span class="eyebrow">MENSAJERÍA · COLA LOCAL</span><h2 id="messages-heading">Consultas de WhatsApp</h2><p>La cola queda lista para conectarse al webhook de Meta.</p></div><button class="primary-button compact-primary" id="queue-messages-button" data-admin-only="true" type="button"><svg><use href="#i-message"></use></svg> Generar consultas</button></div>
+            <div class="message-summary-grid" id="message-summary"></div>
+            <div class="message-info-banner"><span class="message-info-icon"><svg><use href="#i-message"></use></svg></span><span><strong>Modo simulado activo</strong><small>Los mensajes se registran localmente. Cuando cargues las credenciales de WhatsApp, este mismo flujo usará el proveedor real.</small></span><span class="demo-badge">API PENDIENTE</span></div>
+            <div class="message-list" id="message-list"></div>
+          </section>
+        </div>
+
+        <nav class="bottom-nav" aria-label="Navegación móvil">
+          <button class="bottom-nav-item active" data-view="home" type="button"><svg><use href="#i-grid"></use></svg><span>Hoy</span></button>
+          <button class="bottom-nav-item" data-view="route" type="button"><span class="icon-with-badge"><svg><use href="#i-route"></use></svg><b id="mobile-route-badge">6</b></span><span>Ruta</span></button>
+          <button class="bottom-nav-item" data-view="stock" type="button"><svg><use href="#i-box"></use></svg><span>Stock</span></button>
+          <button class="bottom-nav-item" data-view="more" type="button"><svg><use href="#i-more"></use></svg><span>Más</span></button>
+        </nav>
+      </main>
+    </div>
+
+    <div class="modal-backdrop" id="modal-backdrop" hidden></div>
+
+    <section class="bottom-sheet stop-sheet" id="stop-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-client-name" hidden>
+      <div class="sheet-handle"></div>
+      <div class="sheet-header"><div><span class="eyebrow" id="sheet-position">PARADA 1 DE 8</span><h2 id="sheet-client-name">María López</h2></div><button class="icon-button" data-close-sheet type="button" aria-label="Cerrar"><svg><use href="#i-x"></use></svg></button></div>
+      <div class="sheet-client-meta"><span><svg><use href="#i-location"></use></svg><span id="sheet-address">Av. Siempre Viva 742</span></span><span><svg><use href="#i-phone"></use></svg><span id="sheet-phone">+54 11 5555 0101</span></span></div>
+      <div class="sheet-status-row"><span class="status-badge" id="sheet-status">Confirmado</span><span class="last-message" id="sheet-last-message"><svg><use href="#i-message"></use></svg> Respondió por WhatsApp</span></div>
+      <div class="order-editor" id="order-editor"></div>
+      <div class="order-total"><span>Total estimado</span><strong id="sheet-total">$0</strong></div>
+      <div class="sheet-primary-actions"><button class="secondary-button" id="sheet-reschedule" type="button"><svg><use href="#i-calendar"></use></svg> Reprogramar</button><button class="primary-button" id="sheet-deliver" type="button"><svg><use href="#i-check"></use></svg> Registrar entrega</button></div>
+      <div class="sheet-secondary-actions"><button class="quiet-button" id="sheet-confirm" type="button"><svg><use href="#i-check"></use></svg> Confirmar pedido</button><button class="quiet-button danger-text" id="sheet-decline" type="button">Marcar sin pedido</button><button class="quiet-button" id="sheet-reminder" type="button"><svg><use href="#i-message"></use></svg> Enviar recordatorio</button></div>
+    </section>
+
+    <section class="bottom-sheet small-sheet" id="reschedule-sheet" role="dialog" aria-modal="true" aria-labelledby="reschedule-title" hidden>
+      <div class="sheet-handle"></div>
+      <div class="sheet-header"><div><span class="eyebrow">CAMBIO DE FECHA</span><h2 id="reschedule-title">Reprogramar entrega</h2></div><button class="icon-button" data-close-sheet type="button" aria-label="Cerrar"><svg><use href="#i-x"></use></svg></button></div>
+      <p class="sheet-description">Se conserva la parada original y se crea una nueva solicitud para <strong id="reschedule-client">este cliente</strong>.</p>
+      <label class="field-label" for="reschedule-date">Nueva fecha sugerida</label><input class="text-input" id="reschedule-date" type="date" />
+      <label class="field-label" for="reschedule-reason">Motivo (opcional)</label><textarea class="text-input" id="reschedule-reason" rows="3" placeholder="Ej. El cliente pidió para el viernes"></textarea>
+      <button class="primary-button full-button" id="reschedule-save" type="button">Guardar solicitud <svg><use href="#i-arrow"></use></svg></button>
+    </section>
+
+    <section class="bottom-sheet small-sheet" id="price-sheet" role="dialog" aria-modal="true" aria-labelledby="price-title" hidden>
+      <div class="sheet-handle"></div>
+      <div class="sheet-header"><div><span class="eyebrow">ADMINISTRACIÓN</span><h2 id="price-title">Actualizar precios</h2></div><button class="icon-button" data-close-sheet type="button" aria-label="Cerrar"><svg><use href="#i-x"></use></svg></button></div>
+      <p class="sheet-description">Los cambios se aplican a nuevos pedidos. Las entregas ya realizadas conservan su precio.</p>
+      <div class="price-editor" id="price-editor"></div>
+      <button class="primary-button full-button" id="price-save" type="button">Guardar cambios <svg><use href="#i-check"></use></svg></button>
+    </section>
+
+    <section class="bottom-sheet small-sheet" id="movement-sheet" role="dialog" aria-modal="true" aria-labelledby="movement-title" hidden>
+      <div class="sheet-handle"></div>
+      <div class="sheet-header"><div><span class="eyebrow">STOCK · CAMIÓN R-08</span><h2 id="movement-title">Registrar movimiento</h2></div><button class="icon-button" data-close-sheet type="button" aria-label="Cerrar"><svg><use href="#i-x"></use></svg></button></div>
+      <p class="sheet-description">Registrá una carga, devolución o ajuste de forma rápida.</p>
+      <label class="field-label" for="movement-type">Tipo de movimiento</label>
+      <div class="movement-type-grid" id="movement-type-options"><button class="movement-type active" type="button" data-movement-type="load">Carga</button><button class="movement-type" type="button" data-movement-type="return">Devolución</button><button class="movement-type" type="button" data-movement-type="adjustment">Ajuste</button></div>
+      <label class="field-label" for="movement-product">Producto</label>
+      <select class="text-input" id="movement-product"><option value="water20">Bidón 20 L</option><option value="water12">Bidón 12 L</option><option value="soda">Sifón de soda</option></select>
+      <label class="field-label" for="movement-quantity">Cantidad</label>
+      <input class="text-input" id="movement-quantity" type="number" min="1" step="1" value="1" />
+      <label class="field-label" for="movement-reason">Motivo (opcional)</label>
+      <textarea class="text-input" id="movement-reason" rows="2" placeholder="Ej. Recarga en depósito"></textarea>
+      <button class="primary-button full-button" id="movement-save" type="button">Guardar movimiento <svg><use href="#i-check"></use></svg></button>
+    </section>
+
+    <section class="bottom-sheet small-sheet client-editor-sheet" id="client-sheet" role="dialog" aria-modal="true" aria-labelledby="client-sheet-title" hidden>
+      <div class="sheet-handle"></div>
+      <div class="sheet-header"><div><span class="eyebrow" id="client-sheet-kicker">CLIENTE NUEVO</span><h2 id="client-sheet-title">Agregar cliente</h2></div><button class="icon-button" data-close-sheet type="button" aria-label="Cerrar"><svg><use href="#i-x"></use></svg></button></div>
+      <input id="client-id" type="hidden" />
+      <label class="field-label" for="client-name-input">Nombre completo</label><input class="text-input" id="client-name-input" type="text" placeholder="Ej. María López" />
+      <label class="field-label" for="client-phone-input">WhatsApp / teléfono</label><input class="text-input" id="client-phone-input" type="tel" placeholder="+54 9 11 1234 5678" />
+      <label class="field-label" for="client-address-input">Dirección</label><input class="text-input" id="client-address-input" type="text" placeholder="Calle, número y referencia" />
+      <label class="field-label" for="client-driver-input">Repartidor asignado</label><select class="text-input" id="client-driver-input"></select>
+      <label class="field-label">Días de atención</label>
+      <div class="day-picker" id="client-day-picker"><button type="button" data-day="lunes">Lun</button><button type="button" data-day="martes">Mar</button><button type="button" data-day="miércoles">Mié</button><button type="button" data-day="jueves">Jue</button><button type="button" data-day="viernes">Vie</button><button type="button" data-day="sábado">Sáb</button></div>
+      <label class="field-label">Pedido habitual</label>
+      <div class="client-order-picker" id="client-order-picker"></div>
+      <label class="field-label" for="client-notes-input">Notas de acceso</label><textarea class="text-input" id="client-notes-input" rows="2" placeholder="Timbre, portón, referencias..."></textarea>
+      <div class="client-form-options"><label class="check-option"><input id="client-optin-input" type="checkbox" checked /><span>Consentimiento para WhatsApp</span></label><label class="check-option"><input id="client-active-input" type="checkbox" checked /><span>Cliente activo</span></label></div>
+      <button class="primary-button full-button" id="client-save-button" type="button">Guardar cliente <svg><use href="#i-check"></use></svg></button>
+    </section>
+
+    <section class="bottom-sheet small-sheet import-sheet" id="import-sheet" role="dialog" aria-modal="true" aria-labelledby="import-title" hidden>
+      <div class="sheet-handle"></div>
+      <div class="sheet-header"><div><span class="eyebrow">CARGA MASIVA</span><h2 id="import-title">Importar clientes</h2></div><button class="icon-button" data-close-sheet type="button" aria-label="Cerrar"><svg><use href="#i-x"></use></svg></button></div>
+      <p class="sheet-description">Cargá un CSV con las columnas <strong>nombre, telefono, direccion, dia, repartidor, bidon20, bidon12, soda y whatsapp</strong>. También podés pegar el contenido directamente.</p>
+      <label class="upload-zone" for="client-csv-input"><svg><use href="#i-box"></use></svg><strong>Seleccionar archivo CSV</strong><span>o arrastralo acá</span><input id="client-csv-input" type="file" accept=".csv,text/csv" /></label>
+      <div class="or-divider"><span>o</span></div>
+      <textarea class="text-input csv-textarea" id="client-csv-text" rows="5" placeholder="nombre,telefono,direccion,dia,bidon20,bidon12,soda,whatsapp"></textarea>
+      <div class="import-preview" id="import-preview" hidden></div>
+      <div class="sheet-primary-actions"><button class="secondary-button" id="import-template-button" type="button">Ver plantilla</button><button class="primary-button" id="import-confirm-button" type="button" disabled>Importar clientes <svg><use href="#i-check"></use></svg></button></div>
+    </section>
+
+    <section class="bottom-sheet small-sheet" id="info-sheet" role="dialog" aria-modal="true" aria-labelledby="info-title" hidden>
+      <div class="sheet-handle"></div>
+      <div class="sheet-header"><div><span class="eyebrow" id="info-kicker">PRÓXIMAMENTE</span><h2 id="info-title">Módulo en preparación</h2></div><button class="icon-button" data-close-sheet type="button" aria-label="Cerrar"><svg><use href="#i-x"></use></svg></button></div>
+      <div class="info-empty"><div class="info-empty-icon"><svg><use href="#i-more"></use></svg></div><p id="info-text">Esta función estará disponible en la siguiente iteración.</p></div>
+      <button class="primary-button full-button" data-close-sheet type="button">Entendido</button>
+    </section>
+
+    <div class="toast-container" id="toast-container" aria-live="polite" aria-atomic="true"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="supabase-adapter.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

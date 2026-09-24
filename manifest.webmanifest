@@ -1,0 +1,16 @@
+{
+  "name": "AguaFlow · Repartidor",
+  "short_name": "AguaFlow",
+  "description": "Aplicación móvil para organizar rutas, pedidos y entregas de agua y soda.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "id": "aguaflow-reparto",
+  "display": "standalone",
+  "background_color": "#f5f8fb",
+  "theme_color": "#102a43",
+  "lang": "es",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "./favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
