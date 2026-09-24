@@ -1,0 +1,7 @@
+-- Ejecutar después de crear una empresa y asignarle un business_id.
+-- Reemplazar el UUID antes de ejecutar.
+-- insert into public.products (business_id, code, name, kind, size_liters, unit)
+-- values
+--   ('00000000-0000-0000-0000-000000000000', 'W20', 'Bidón 20 L', 'water_20l', 20, 'bidón'),
+--   ('00000000-0000-0000-0000-000000000000', 'W12', 'Bidón 12 L', 'water_12l', 12, 'bidón'),
+--   ('00000000-0000-0000-0000-000000000000', 'SODA', 'Sifón de soda', 'soda', null, 'sifón');

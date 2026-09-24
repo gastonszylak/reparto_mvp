@@ -1,0 +1,10 @@
+project_id = "aguaflow"
+
+[functions.daily-dispatch]
+verify_jwt = false
+
+[functions.whatsapp-webhook]
+verify_jwt = false
+
+[functions.import-clients]
+verify_jwt = true
